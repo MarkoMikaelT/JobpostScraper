@@ -29,15 +29,15 @@ credPath = "./noExport/cred.json"
 
 def Main():
     #set how many pages are gone through | Each page has 20 jobs -> (1 + runCount)*20 = jobs scraped
-    runCount = 9
+    runCount = 4
     k = 0
     pageCount = 0
 
     #KEYWORDS TO FIND
-    persistentSearchCount = {"python": 0, "javascript": 0, "java": 0,
-                            "c++": 0, "sql": 0, "flutter": 0, "kotlin": 0,
-                            "php": 0, "c#": 0, "html": 0, "css": 0,
-                            "typescript": 0, "rust": 0, "swift": 0, "nosql": 0}
+    persistentSearchCount = {" python": 0, " javascript": 0, " java": 0,
+                            " c++": 0, " sql": 0, " flutter": 0, " kotlin": 0,
+                            " php": 0, " c#": 0, " html": 0, " css": 0,
+                            " typescript": 0, " rust": 0, " swift": 0, " nosql": 0}
     keyString = persistentSearchCount.keys()
 
     searchCount = {}
@@ -53,7 +53,7 @@ def Main():
             urlJob = link.get('href')
             print('https://duunitori.fi' + urlJob)
             driver.get('https://duunitori.fi' + urlJob)
-            driver.implicitly_wait(1)
+            driver.implicitly_wait(2)
             jobPost = driver.find_element(By.CLASS_NAME, 'description-box').text.lower()
 
             repls = ('\n', ''), ('<br>', '')
