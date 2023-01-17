@@ -1,6 +1,3 @@
-#Program scrapes Duunitori for set keywords and returns "the best job for you" :p
-#ie. the job which description has the most "keyStrings"
-#creates or updates "democsv.csv" file on end  
 
 from datetime import datetime
 from bs4 import BeautifulSoup as bs
@@ -29,7 +26,7 @@ credPath = "./noExport/cred.json"
 
 def Main():
     #set how many pages are gone through | Each page has 20 jobs -> (1 + runCount)*20 = jobs scraped
-    runCount = 4
+    runCount = 0
     k = 0
     pageCount = 0
 
@@ -38,8 +35,8 @@ def Main():
                             " c++": 0, " sql": 0, " flutter": 0, " kotlin": 0,
                             " php": 0, " c#": 0, " html": 0, " css": 0,
                             " typescript": 0, " rust": 0, " swift": 0, " nosql": 0}
-    keyString = persistentSearchCount.keys()
 
+    keyString = persistentSearchCount.keys()
     searchCount = {}
 
     while k  <= runCount:
@@ -51,7 +48,7 @@ def Main():
 
         for link in jobs:
             urlJob = link.get('href')
-            print('https://duunitori.fi' + urlJob)
+            #print('https://duunitori.fi' + urlJob)
             driver.get('https://duunitori.fi' + urlJob)
             driver.implicitly_wait(2)
             jobPost = driver.find_element(By.CLASS_NAME, 'description-box').text.lower()
@@ -73,17 +70,21 @@ def Main():
     driver.quit()
     print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
-    AddToCSV(persistentSearchCount, keyString, pageCount)
-    ExportToMongo(persistentSearchCount)
+    persistentSearchCount.update({"checkedPages": pageCount})
+    persistentSearchCount.update({"runTime": datetime.today().strftime("%d/%m/%Y|%H:%M:%S")})
 
-def AddToCSV(data: dict, keyString: dict, pages):
-    data.update({"checkedPages": pages})
-    data.update({"runTime": datetime.today().strftime("%d/%m/%Y|%H:%M:%S")})
+    toMongo = {datetime.today().strftime("%d/%m/%Y"): persistentSearchCount}
+
+    AddToCSV(persistentSearchCount, keyString)
+    ExportToMongo(toMongo)
+
+def AddToCSV(data: dict, keyString: dict):
+    # data.update({"checkedPages": pages})
+    # data.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
     with open("democsv.csv", "a") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames = keyString)
         writer.writeheader()
         writer.writerows([data]) 
-    print(data)
 
 def ExportToMongo(data: dict):
     file = open(credPath)
