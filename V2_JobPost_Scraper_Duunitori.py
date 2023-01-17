@@ -71,9 +71,10 @@ def Main():
     print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
     persistentSearchCount.update({"checkedPages": pageCount})
-    persistentSearchCount.update({"runTime": datetime.today().strftime("%d/%m/%Y|%H:%M:%S")})
+    persistentSearchCount.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
+    persistentSearchCount.update({"runTime": datetime.today().strftime("%H:%M:%S")})
 
-    toMongo = {datetime.today().strftime("%d/%m/%Y"): persistentSearchCount}
+    toMongo = persistentSearchCount
 
     AddToCSV(persistentSearchCount, keyString)
     ExportToMongo(toMongo)
