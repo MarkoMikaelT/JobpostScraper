@@ -26,7 +26,7 @@ driver = webdriver.Chrome(ChromeDriverManager().install())
 
 def Main():
     #set how many pages are gone through | Each page has 20 jobs -> (1 + runCount)*20 = jobs scraped
-    runCount = 1
+    runCount = 0
     k = 0
     totaltotalCount = 0
     prevTotalCount = 0

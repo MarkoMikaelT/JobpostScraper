@@ -74,14 +74,10 @@ def Main():
     persistentSearchCount.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
     persistentSearchCount.update({"runTime": datetime.today().strftime("%H:%M:%S")})
 
-    toMongo = persistentSearchCount
-
     AddToCSV(persistentSearchCount, keyString)
-    ExportToMongo(toMongo)
+    ExportToMongo(persistentSearchCount)
 
 def AddToCSV(data: dict, keyString: dict):
-    # data.update({"checkedPages": pages})
-    # data.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
     with open("democsv.csv", "a") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames = keyString)
         writer.writeheader()
