@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "test")
+@Document(collection = "Scrape1")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,11 +32,12 @@ public class datascrape {
     private Integer rust;
     private Integer swift;
     private Integer nosql;
+    private Integer cplus;
+    private Integer csharp;
     private Integer checkedPages;
     private String runDate;
     private String runTime;
-    private Integer cplus;
-    private Integer csharp;
+
     
     // public datascrape(Integer python, Integer javascript, Integer java, Integer sql, Integer flutter, 
     //                     Integer kotlin, Integer php, Integer html, Integer css, Integer typescript, Integer rust,

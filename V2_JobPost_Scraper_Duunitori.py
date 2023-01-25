@@ -31,12 +31,19 @@ def Main():
     pageCount = 0
 
     #KEYWORDS TO FIND
-    persistentSearchCount = {" python": 0, " javascript": 0, " java": 0,
-                            " c++": 0, " sql": 0, " flutter": 0, " kotlin": 0,
-                            " php": 0, " c#": 0, " html": 0, " css": 0,
-                            " typescript": 0, " rust": 0, " swift": 0, " nosql": 0}
+    keyWords = [" python", " javascript", " java",
+                " c++", " sql", " flutter", " kotlin",
+                " php", " c#", " html", " css",
+                " typescript", " rust", " swift", " nosql"]
 
-    keyString = persistentSearchCount.keys()
+    #data to send to MongoDB
+    mongoSearchCount = {"python": 0, "javascript": 0, "java": 0,
+                            "cplus": 0, "sql": 0, "flutter": 0, "kotlin": 0,
+                            "php": 0, "csharp": 0, "html": 0, "css": 0,
+                            "typescript": 0, "rust": 0, "swift": 0, "nosql": 0}
+
+    #keyString = persistentSearchCount.keys()
+    csvKeyString = mongoSearchCount.keys()
     searchCount = {}
 
     while k  <= runCount:
@@ -56,26 +63,30 @@ def Main():
             repls = ('\n', ''), ('<br>', '')
             jobPost = ft.reduce(lambda a, kv: a.replace(*kv), repls, jobPost)
 
+            i = 0
             #print(jobPost)
-            for key in keyString:
-                searchCount[key] = jobPost.count(key)
-                persistentSearchCount[key] += searchCount[key]
+            for key in keyWords:
+                ikey = list(mongoSearchCount)[i]
+                searchCount[ikey] = jobPost.count(key)
+                mongoSearchCount[ikey] += searchCount[ikey]
+
+                i += 1
             
             searchCount.clear()
             pageCount += 1
             
         k += 1
 
-    print(persistentSearchCount)
+    print(mongoSearchCount)
     driver.quit()
     print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
-    persistentSearchCount.update({"checkedPages": pageCount})
-    persistentSearchCount.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
-    persistentSearchCount.update({"runTime": datetime.today().strftime("%H:%M:%S")})
+    mongoSearchCount.update({"checkedPages": pageCount})
+    mongoSearchCount.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
+    mongoSearchCount.update({"runTime": datetime.today().strftime("%H:%M:%S")})
 
-    AddToCSV(persistentSearchCount, keyString)
-    ExportToMongo(persistentSearchCount)
+    AddToCSV(mongoSearchCount, csvKeyString)
+    ExportToMongo(mongoSearchCount)
 
 def AddToCSV(data: dict, keyString: dict):
     with open("democsv.csv", "a") as csvfile:
