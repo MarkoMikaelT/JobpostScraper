@@ -11,6 +11,8 @@ public class DataService {
     @Autowired
     private DataRepo dataRepo;
     public List<datascrape> getAllScrap(){
+        System.out.println(dataRepo.count());
+        System.out.println(dataRepo.findAll().toString());
         return dataRepo.findAll();
     }
 }
