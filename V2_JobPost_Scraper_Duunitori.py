@@ -82,7 +82,7 @@ def Main():
     print("Process finished --- %s seconds ---" % (time.time() - start_time))
 
     mongoSearchCount.update({"checkedPages": pageCount})
-    mongoSearchCount.update({"runDate": datetime.today().strftime("%d/%m/%Y")})
+    mongoSearchCount.update({"runDate": datetime.today().strftime("%d-%m-%Y")})
     mongoSearchCount.update({"runTime": datetime.today().strftime("%H:%M:%S")})
 
     AddToCSV(mongoSearchCount, csvKeyString)
