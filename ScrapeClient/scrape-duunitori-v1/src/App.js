@@ -1,22 +1,44 @@
 import logo from './logo.svg';
 import './App.css';
+import api from './ScrapeApi/AxiosConf';
+import { useState, useEffect } from 'react';
 
 function App() {
+
+  const [scrapes, setScrapes] = useState()
+
+  const getScrapes = async () => {
+    try{
+      const response = await api.get("/api/v1/Scrape")
+      setScrapes(response.data)
+      console.log(response.data)
+    
+    } catch(err){
+      console.warn(err)
+    }
+  }
+
+  const getScrapeByDate = async () => {
+    try{
+      const response = await api.get("/api/v1/Scrape/28-01-2023")
+      setScrapes(response.data)
+      console.log(response.data)
+    
+    } catch(err){
+      console.warn(err)
+    }
+  }
+
+
+  useEffect(() => {
+    getScrapes();
+    getScrapeByDate();
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+
       </header>
     </div>
   );
