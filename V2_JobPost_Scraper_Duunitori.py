@@ -26,7 +26,7 @@ credPath = "./noExport/cred.json"
 
 def Main():
     #set how many pages are gone through | Each page has 20 jobs -> (1 + runCount)*20 = jobs scraped
-    runCount = 0
+    runCount = 4
     k = 0
     pageCount = 0
 
