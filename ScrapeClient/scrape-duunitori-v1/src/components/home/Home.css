@@ -1,0 +1,12 @@
+main{
+    
+}
+.graph-container{
+    display: flex;
+    flex-wrap: row;
+}
+
+.graph-container > *{
+    flex-wrap: row;
+    position:sticky;
+}

@@ -2,10 +2,15 @@ import logo from './logo.svg';
 import './App.css';
 import api from './ScrapeApi/AxiosConf';
 import { useState, useEffect } from 'react';
+import Layout from './components/Layout';
+import { Route, Routes } from 'react-router-dom';
+import Home from './components/home/Home';
+import Graph from './components/graph/Graph';
 
 function App() {
 
   const [scrapes, setScrapes] = useState()
+  const [scrapesByDate, setByDatScrape] = useState()
 
   const getScrapes = async () => {
     try{
@@ -21,7 +26,7 @@ function App() {
   const getScrapeByDate = async () => {
     try{
       const response = await api.get("/api/v1/Scrape/28-01-2023")
-      setScrapes(response.data)
+      setByDatScrape(response.data)
       console.log(response.data)
     
     } catch(err){
@@ -37,9 +42,11 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-
-      </header>
+      <Routes>
+        <Route path='/' element={<Layout/>}>
+          <Route path='/' element={<Home scrapes={scrapes} scrapesByDate={scrapesByDate}/>}></Route>
+        </Route>
+      </Routes>
     </div>
   );
 }
