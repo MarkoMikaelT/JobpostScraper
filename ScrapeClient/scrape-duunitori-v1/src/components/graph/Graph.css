@@ -1,5 +1,7 @@
-.bar-chart{
-    width: min-content;
-    height: min-content;
+.chart{
+    width: 600px;
+    height: 400px;
     margin: 20px;
+    padding: 0%;
+    float: left;
 }

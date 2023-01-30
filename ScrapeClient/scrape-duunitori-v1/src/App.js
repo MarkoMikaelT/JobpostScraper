@@ -5,7 +5,11 @@ import { useState, useEffect } from 'react';
 import Layout from './components/Layout';
 import { Route, Routes } from 'react-router-dom';
 import Home from './components/home/Home';
-import Graph from './components/graph/Graph';
+import Graph from './components/graph/BarGraph';
+
+//example data
+import TestDataAll from './ExampleDataAll.json'
+import TestDataOne from './ExampleDataOneDay.json'
 
 function App() {
 
@@ -36,15 +40,15 @@ function App() {
 
 
   useEffect(() => {
-    getScrapes();
-    getScrapeByDate();
+    // getScrapes();
+    // getScrapeByDate();
   }, [])
 
   return (
     <div className="App">
       <Routes>
         <Route path='/' element={<Layout/>}>
-          <Route path='/' element={<Home scrapes={scrapes} scrapesByDate={scrapesByDate}/>}></Route>
+          <Route path='/' element={<Home scrapes={TestDataAll} scrapesByDate={TestDataOne}/>}></Route>
         </Route>
       </Routes>
     </div>
