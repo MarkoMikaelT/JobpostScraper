@@ -1,11 +1,11 @@
 import React from 'react'
-import './Graph.css'
+
 import {  BarChart, Bar, Tooltip, Legend, ResponsiveContainer,CartesianGrid, XAxis, YAxis } from 'recharts'
 
-function Graph({data}) {
+function Graph({data, COLORS}) {
   return (
-    <div className='chart'>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className='bar-chart'>
+      <ResponsiveContainer width="100%" height="100%" debounce={1}>
         <BarChart
 
           data={data}
@@ -21,12 +21,12 @@ function Graph({data}) {
           <YAxis/>
           <Tooltip />
           <Legend />
-          <Bar dataKey="python" fill="#645CBB" />
-          <Bar dataKey="java" fill="#A084DC" />
-          <Bar dataKey="csharp" fill="#BFACE2" />
-          <Bar dataKey="cplus" fill="#EBC7E6" />
-          <Bar dataKey="javascript" fill="#AEE2FF" />
-          <Bar dataKey="typescript" fill="#93C6E7" />
+          <Bar dataKey="python" fill={COLORS[0]} />
+          <Bar dataKey="java" fill={COLORS[1]} />
+          <Bar dataKey="csharp" fill={COLORS[2]} />
+          <Bar dataKey="cplus" fill={COLORS[3]} />
+          <Bar dataKey="javascript" fill={COLORS[4]} />
+          <Bar dataKey="typescript" fill={COLORS[5]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

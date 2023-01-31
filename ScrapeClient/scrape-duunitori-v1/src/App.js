@@ -4,8 +4,9 @@ import api from './ScrapeApi/AxiosConf';
 import { useState, useEffect } from 'react';
 import Layout from './components/Layout';
 import { Route, Routes } from 'react-router-dom';
+import Header from './components/header/Header';
 import Home from './components/home/Home';
-import Graph from './components/graph/BarGraph';
+import GraphCenter from './components/graph/GraphCenter';
 
 //example data
 import TestDataAll from './ExampleDataAll.json'
@@ -46,9 +47,11 @@ function App() {
 
   return (
     <div className="App">
+      <Header></Header>
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route path='/' element={<Home scrapes={TestDataAll} scrapesByDate={TestDataOne}/>}></Route>
+          <Route path='/graphs' element={<GraphCenter scrapes={TestDataAll} scrapesByDate={TestDataOne}></GraphCenter>}></Route>
         </Route>
       </Routes>
     </div>

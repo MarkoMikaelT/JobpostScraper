@@ -1,13 +1,12 @@
 import React from 'react'
-import BarGraph from '../graph/BarGraph'
-import PieGraph from '../graph/PieGraph'
+import GraphCenter from '../graph/GraphCenter'
+import Header from '../header/Header'
 
 const Home = ({scrapes, scrapesByDate}) => {
   return (
-    <div className='graph-container'>
-        <BarGraph data={scrapes}></BarGraph>
-        <BarGraph data={scrapesByDate}></BarGraph>
-        <PieGraph data={scrapesByDate}></PieGraph>
+    <div >
+        
+        
     </div>
   )
 }
