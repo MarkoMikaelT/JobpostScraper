@@ -7,6 +7,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import csv
+import re
 
 import json
 from pymongo import MongoClient
@@ -31,10 +32,10 @@ def Main():
     pageCount = 0
 
     #KEYWORDS TO FIND
-    keyWords = [" python", " javascript", " java",
-                " c++", " sql", " flutter", " kotlin",
-                " php", " c#", " html", " css",
-                " typescript", " rust", " swift", " nosql"]
+    keyWords = [r"python", r"javascript", r"java(?!script)",
+                r"c\+\+", r"(?<!no)sql", r"flutter", r"kotlin",
+                r"php", r"c#", r"html", r"css",
+                r"typescript", r"(?<![a-z])rust", r"swift", r"nosql"]
 
     #data to send to MongoDB
     mongoSearchCount = {"python": 0, "javascript": 0, "java": 0,
@@ -49,7 +50,7 @@ def Main():
     while k  <= runCount:
 
         html_text = requests.get('https://duunitori.fi/tyopaikat?haku=Tieto-%20ja%20tietoliikennetekniikka%20(ala)&order_by=date_posted&sivu=' + str(k)).text
-        soppa = bs(html_text, 'html.parser')
+        soppa = bs(html_text, 'html.parser') 
 
         jobs = soppa.find_all('a', class_="job-box__hover gtm-search-result")
 
@@ -67,7 +68,7 @@ def Main():
             #print(jobPost)
             for key in keyWords:
                 ikey = list(mongoSearchCount)[i]
-                searchCount[ikey] = jobPost.count(key)
+                searchCount[ikey] = len(re.findall(key, jobPost, re.IGNORECASE))
                 mongoSearchCount[ikey] += searchCount[ikey]
 
                 i += 1
