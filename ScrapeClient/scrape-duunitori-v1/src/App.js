@@ -50,7 +50,7 @@ function App() {
       <Header></Header>
       <Routes>
         <Route path='/' element={<Layout/>}>
-          <Route path='/' element={<Home scrapes={TestDataAll} scrapesByDate={TestDataOne}/>}></Route>
+          <Route path='/' element={<Home/>}></Route>
           <Route path='/graphs' element={<GraphCenter scrapes={TestDataAll} scrapesByDate={TestDataOne}></GraphCenter>}></Route>
         </Route>
       </Routes>

@@ -1,11 +1,12 @@
 import React from 'react'
 import GraphCenter from '../graph/GraphCenter'
 import Header from '../header/Header'
+import RockPaperSci from '../rockpapersci/RockPaperSci'
 
-const Home = ({scrapes, scrapesByDate}) => {
+const Home = () => {
   return (
-    <div >
-        
+    <div className='home' >
+        <RockPaperSci></RockPaperSci>
         
     </div>
   )
