@@ -30,7 +30,7 @@ function App() {
 
   const getScrapeByDate = async () => {
     try{
-      const response = await api.get("/api/v1/Scrape/28-01-2023")
+      const response = await api.get("/api/v1/Scrape/01-02-2023")
       setByDatScrape(response.data)
       console.log(response.data)
     
@@ -41,8 +41,8 @@ function App() {
 
 
   useEffect(() => {
-    // getScrapes();
-    // getScrapeByDate();
+    getScrapes();
+    getScrapeByDate();
   }, [])
 
   return (
@@ -51,7 +51,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route path='/' element={<Home/>}></Route>
-          <Route path='/graphs' element={<GraphCenter scrapes={TestDataAll} scrapesByDate={TestDataOne}></GraphCenter>}></Route>
+          <Route path='/graphs' element={<GraphCenter scrapes={scrapes} scrapesByDate={scrapesByDate}></GraphCenter>}></Route>
         </Route>
       </Routes>
     </div>

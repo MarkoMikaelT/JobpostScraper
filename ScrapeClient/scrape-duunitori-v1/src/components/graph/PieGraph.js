@@ -1,6 +1,8 @@
 import React from 'react'
-
+import {useState, useEffect} from 'react'
+import api from '../../ScrapeApi/AxiosConf'
 import {Text, PieChart, Pie, Tooltip, Cell, Legend, ResponsiveContainer} from 'recharts'
+import { text } from '@fortawesome/fontawesome-svg-core'
 
 const scrapeArr = [{name: "python", value: 0},
                     {name: "java", value: 0},
@@ -10,8 +12,16 @@ const scrapeArr = [{name: "python", value: 0},
                     {name: "typescript", value: 0}
                     ]
 
-function formatData(data){
+const customLabel = ({percent}) => {
+  return (
+    `${(percent * 10000).toFixed(0) / 100}%`
+  )
+}
 
+
+function PieGraph({data, COLORS}) {
+
+  if(data != undefined){
     data.forEach(doc =>{
         scrapeArr[0].value += doc.python
         scrapeArr[1].value += doc.java
@@ -21,27 +31,13 @@ function formatData(data){
         scrapeArr[5].value += doc.typescript
     }) 
 
-    return scrapeArr
-}
-
-
-const customLabel = ({percent}) => {
-  return (
-    `${(percent * 10000).toFixed(0) / 100}%`
-  )
-}
-
-function PieGraph({data, COLORS}) {
-
-  const pieVal = formatData(data)
-
-  return (
-    <div className='pie-chart'>
+    return( 
+      <div className='pie-chart'>
       <ResponsiveContainer width="100%" height="100%" debounce={1}>
         <PieChart width="100%" height="100%">
-            <Pie data={pieVal} dataKey="value" nameKey="name"
-             cx="50%" cy="50%" innerRadius="50%" outerRadius="80%" fill="#82ca9d" label={customLabel}>
-              {pieVal.map((entry, index) => (
+            <Pie data={scrapeArr} dataKey="value" nameKey="name"
+            cx="50%" cy="50%" innerRadius="50%" outerRadius="80%" fill="#82ca9d" label={customLabel}>
+              {scrapeArr.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Pie> 
@@ -50,7 +46,12 @@ function PieGraph({data, COLORS}) {
 
       </ResponsiveContainer>
     </div>
-  )
+    )
+  }
+  else { 
+    return <p style={{color: COLORS[1]}}>Loading</p>
+  }
+  
 }
 
 export default PieGraph
