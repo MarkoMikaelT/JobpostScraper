@@ -26,6 +26,7 @@ driver = webdriver.Chrome(ChromeDriverManager().install())
 credPath = "./noExport/cred.json"
 
 def Main():
+
     #set how many pages are gone through | Each page has 20 jobs -> (1 + runCount)*20 = jobs scraped
     runCount = 4
     k = 0
@@ -63,7 +64,7 @@ def Main():
 
             repls = ('\n', ''), ('<br>', '')
             jobPost = ft.reduce(lambda a, kv: a.replace(*kv), repls, jobPost)
-
+            ExportFullPostToMongo(jobPost)
             i = 0
             #print(jobPost)
             for key in keyWords:
@@ -71,6 +72,8 @@ def Main():
                 searchCount[ikey] = len(re.findall(key, jobPost, re.IGNORECASE))
                 mongoSearchCount[ikey] += searchCount[ikey]
 
+                # if mongoSearchCount["rust"] > 0:
+                #     print('https://duunitori.fi' + urlJob)
                 i += 1
             
             searchCount.clear()
@@ -95,14 +98,24 @@ def AddToCSV(data: dict, keyString: dict):
         writer.writeheader()
         writer.writerows([data]) 
 
-def ExportToMongo(data: dict):
+def ConnectToMongo():
     file = open(credPath)
     creds = json.load(file)
 
     clusterConn = f"mongodb+srv://{creds['name']}:{creds['pass']}@scrapecluster.bvokbsk.mongodb.net/ScrapedData?retryWrites=true&w=majority"
     client = MongoClient(clusterConn)
-    db = client.ScrapedData.Scrape1
+    return client
 
+def ExportToMongo(data: dict):
+    client = ConnectToMongo()
+    db = client.ScrapedData.Scrape1
     db.insert_one(data)
+
+def ExportFullPostToMongo(jobpost: str):
+    dataToSend = {"Jobpost": jobpost, "runDate": datetime.today().strftime("%d-%m-%Y"), "runTime": datetime.today().strftime("%H:%M:%S")}
+
+    client = ConnectToMongo()
+    db = client.ScrapedData.ScrapeFullDescription
+    db.insert_one(dataToSend)
 
 Main()
